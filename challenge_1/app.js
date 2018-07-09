@@ -1,6 +1,6 @@
 const _sides = ['x', 'o'];
-const _board = [[,,],[,,],[,,]];
-let turn = 0;
+const _board = [[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']];
+let round = 0;
 let player = [];
 let start = 0;
 
@@ -24,38 +24,68 @@ class Player {
   }
 }
 
-var play = function(row, col) {
-  if(turn < 9) {
-    if(_board(row, col)) {
-      _board(row,col) = player[turn%2+start].sides;
-      if(isWinner(row, col)) {
+var play = function(element, row, col) {
+  let turn = round%2+start
+  if(round < 9) {
+    if(_board[row][col] === ' ') {
+      _board[row][col] = player[turn].side;
+      element.innerHTML = player[turn].side;
+      if(isWinner(row, col, player[turn].side)) {
         var winner = player[turn%2+start];
-        console.log(`${winner.name} has won on turn ${turn+1}`);
+        console.log(`${winner.name} has won on turn ${round+1}`);
+        var boardState = `${JSON.stringify(_board[0])}\n${JSON.stringify(_board[1])}\n${JSON.stringify(_board[2])}`;
+        console.log('Board State: \n'+boardState);
       } else {
-        console.log()
-        turn++;
+        console.log(`${player[(turn+1)%2].name}'s turn...'`);
+        round++;
       }
     } else {
       console.log('Invalid Play: Please Try Again');
     }
+  } else {
+    console.log('Draw!');
   }
-  console.log('Draw!');
 }
 
-var isWinner = (row, col) => {
-
+var isWinner = (row, col, side) => {
+  return colWin(col, side) || rowWin(row, side) || diagWin(row, col, side);
 }
 
-var colWin = (col) => {
-
+var colWin = (c, side) => {
+  for(var row of _board) {
+    if(row[c] !== side) return false;
+  }
+  return true;
 }
 
-var rowWin = (row) => {
-
+var rowWin = (r, side) => {
+  for(var col of _board[r]) {
+  if(col !== side) return false;
+  }
+  return true;
 }
 
-var diagWin = (row, col) => {
-  
+var diagWin = (r, c, side) => {
+  var diag1 = [[0,0], [1,1], [2,2]];
+  var diag2 = [[0,2], [1,1], [2,0]];
+  var result = false;
+  if(r === c && !result) result = checkMajor(side);
+  if(r === 2-c && !result) result = checkMinor(side);
+  return result;
+}
+
+var checkMajor = (side) => {
+  for(var i = 0; i < 3; i++) {
+    if(_board[i][i] !== side) return false;
+  }
+  return true;
+}
+
+var checkMinor = (side) => {
+  for(var i = 0; i < 3; i++) {
+    if(_board[i][2-i] !== side) return false;
+  }
+  return true;
 }
 
 var pickSides = (str, sides) => {
