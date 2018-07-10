@@ -11,10 +11,10 @@ app.use(express.static('client'));
 
 app.post('/?', function(req, res) {
   let filePath = __dirname + 'data/json_report.json';
-  fs.appendFile(filePath, req.body, () => {
-  });
-    console.log(req.body);
-  res.send('hello world');
+  // fs.appendFile(filePath, req.body, () => {
+  // });
+  res.status(200);.send('hello world');
+  res.end(req.body);
 })
 
 if (!module.parent) {

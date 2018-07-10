@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
+import $ from 'jquery';
+// import axios from 'axios';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       input: '',
+      output: ''
     };
   }
 
@@ -15,20 +17,30 @@ class App extends React.Component {
   }
 
   handleSubmit(evt) {
-    axios.post(`127.0.0.1:3000`, this.state.input)
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      });
+    $.ajax({
+      type: 'POST',
+      url: '127.0.0.1:3000',
+      data: evt.target.value,
+      success: function(data) {
+        this.setState({output: data});
+        console.log(data);
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
   }
 
   render() {
+
+    console.log(this.state.output);
     return (
       <div>
-        <form onSubmit={this.handleSubmit.bind(this)}>
+        <form onSubmit={()=>this.handleSubmit}>
           <input type= "text" onChange={this.handleChange.bind(this)}></input>
           <button type="submit">submit</button>
         </form>
+        <div>{this.state.output}</div>
       </div>
     );
   }
