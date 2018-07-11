@@ -17,30 +17,50 @@ class App extends React.Component {
   }
 
   handleSubmit(evt) {
+    evt.preventDefault();
+    console.log(this.state.input);
+    this.postRequest((data) => this.setState({
+      output: data
+    }))
+    // axios.post('http://127.0.0.1:3000', this.state.input)
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
+  }
+
+  postRequest(callback) {
     $.ajax({
+      url: '/',
       type: 'POST',
-      url: '127.0.0.1:3000',
-      data: evt.target.value,
-      success: function(data) {
-        this.setState({output: data});
+      contentType: 'application/json',
+      data: this.state.input,
+      success: (data) => {
+        callback(data);
         console.log(data);
       },
       error: function(error) {
+        console.log('testing');
         console.log(error);
       }
     });
   }
 
   render() {
-
-    console.log(this.state.output);
     return (
       <div>
-        <form onSubmit={()=>this.handleSubmit}>
-          <input type= "text" onChange={this.handleChange.bind(this)}></input>
+        <form onSubmit={this.handleSubmit.bind(this)}>
+          <textarea type= "text" onChange={this.handleChange.bind(this)}></textarea>
           <button type="submit">submit</button>
         </form>
-        <div>{this.state.output}</div>
+        <div>{this.state.output.split('\n').map(function(item) {
+          return (
+            {item}
+            <br/>
+          )
+        })}</div>
       </div>
     );
   }
