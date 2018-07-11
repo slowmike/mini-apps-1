@@ -1,0 +1,31 @@
+.page {
+  background-color: #666;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+span {
+  display: block;
+  color: white;
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+input {
+  font-size: 20px;
+  height: 30px;
+  width: 200px;
+}
+
+button {
+  background-color: black;
+  color: white;
+  margin-top: 30px;
+  font-size: 20px;
+  border: none;
+  padding: 2px;
+  width: 200px;
+}

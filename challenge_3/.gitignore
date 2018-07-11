@@ -1,1 +1,2 @@
-public/*.js
+public/app.js
+*.DS_Store
