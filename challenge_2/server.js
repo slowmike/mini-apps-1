@@ -11,13 +11,23 @@ app.set('port', 3000)
 
 app.use(express.static('client'));
 
+var count = 0;
+var spl = ' | ';
 
 app.post('/', jsonParser, function(req, res) {
   if(!req.body) return res.sendStatus(418);
   let data = req.body;
-  console.log(handleData(data));
-  return res.status(200).send(handleData(data));
+  count = 0;
+  return res.status(200).send(getJSONKeys(data)+handleData(data));
 })
+
+var getJSONKeys = (data) => {
+  var arr = [];
+  for(var key in data) {
+    if(key !== 'children') { arr.push(key); }
+  }
+  return 'id'+spl+arr.join(spl)+'\n';
+}
 
 var handleData = (data) => {
   var arr = [];
@@ -25,7 +35,8 @@ var handleData = (data) => {
   for(var key in data) {
     key === 'children' ? hasChildren = true : arr.push(data[key]);
   }
-  result = arr.join(',')+'\n';
+  result = count+spl+arr.join(spl)+'\n';
+  count++;
   if(hasChildren) {
     for(var child of data['children']) {
       result += handleData(child);

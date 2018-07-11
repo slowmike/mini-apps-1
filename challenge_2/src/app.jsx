@@ -18,7 +18,6 @@ class App extends React.Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    console.log(this.state.input);
     this.postRequest((data) => this.setState({
       output: data
     }))
@@ -39,10 +38,8 @@ class App extends React.Component {
       data: this.state.input,
       success: (data) => {
         callback(data);
-        console.log(data);
       },
       error: function(error) {
-        console.log('testing');
         console.log(error);
       }
     });
@@ -57,8 +54,10 @@ class App extends React.Component {
         </form>
         <div>{this.state.output.split('\n').map(function(item) {
           return (
-            {item}
-            <br/>
+            <span>
+              {item}
+              <br/>
+            </span>
           )
         })}</div>
       </div>
