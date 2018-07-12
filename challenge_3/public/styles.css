@@ -7,6 +7,11 @@
   align-items: center;
 }
 
+h1, h3 {
+  display: block;
+  color: white;
+}
+
 span {
   display: block;
   color: white;
@@ -28,4 +33,8 @@ button {
   border: none;
   padding: 2px;
   width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
 }
