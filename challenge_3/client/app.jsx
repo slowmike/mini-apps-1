@@ -2,7 +2,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 4,
+      page: 0,
       input: {}
     };
   }
@@ -10,6 +10,15 @@ class App extends React.Component {
   handleSubmit(evt) {
     evt.preventDefault();
     if(this.state.page > 0) {
+      for(var key of evt.target) {
+        if(!!key.name) {
+          if(!key.value) {
+            alert(`Missing ${JSON.stringify(key.name)}`)
+            return;
+          }
+          this.state.input[key.name] = key.value;
+        }
+      }
       this.postData(evt);
     }
     this.goToNextPage(evt);
@@ -32,8 +41,8 @@ class App extends React.Component {
         type: "POST",
         data: JSON.stringify(data),
         contentType: 'application/json',
-        success: data => console.log(data),
-        error: error => console.error(error)
+        success: data => {console.log(data);},
+        error: error => {console.error(error);}
       });
     } else {
       $.ajax({
@@ -41,10 +50,25 @@ class App extends React.Component {
         type: "POST",
         data: JSON.stringify({'end': true}),
         contentType: 'application/json',
-        success: data => console.log(data),
-        error: error => console.error(error)
+        success: data => {console.log(data);},
+        error: error => {console.error(error);}
       });
     }
+  }
+
+  getData() {
+    var info = {};
+    $.ajax({
+      url: "/",
+      type: "GET",
+      success: data => {
+        console.log(data);
+      },
+      error: error => {
+        console.error(error);
+      }
+    });
+    return info;
   }
 
   goToNextPage(evt) {
