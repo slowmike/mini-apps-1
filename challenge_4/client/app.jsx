@@ -98,18 +98,21 @@ class App extends React.Component {
   didWinMinorDiagonally(row, col) {
     var curr = 0;
     var count = 1;
-    var minorDiag = row+col;
     var board = this.state.board;
+    var minorDiag = row+col;
+    var r = 0;
+    var c = row+col;
     var length = board.length;
-    console.log(minorDiag, row, col);
-    var diff;
-    minorDiag >= 5 ? diff = 1+minorDiag : diff=12-minorDiag;
-    var start = 0;
-    if(minorDiag > 5) start = length-diff;
-    for(var i = start; i < length-diff; i++) {
-      console.log(i, i+start);
-      curr === board[i][i+start] ? count += 1 : count = 1;
-      curr = board[i][i+start];
+    var diff = minorDiag - length;
+
+    if(minorDiag >= length) {
+      r += diff;
+      c -= diff;
+    }
+
+    for(var i = 0; i < length - Math.abs(diff); i++) {
+      curr === board[r+i][c-i] ? count += 1 : count = 1;
+      curr = board[r+i][c-i];
       if(count === 4 && curr !== 0) { return true; }
     }
     return false;
