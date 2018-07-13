@@ -31,7 +31,7 @@ class App extends React.Component {
         legalPlay = true;
       }
     }
-    legalPlay ? curTurn = curTurn%2+1 : console.log('Invalid Play: please try again!');
+    legalPlay ? this.setState({curTurn: this.state.curTurn%2+1}) : console.log('Invalid Play: please try again!');
     this.setState({board: newBoard});
     console.log(JSON.stringify(this.state.board));
   }
