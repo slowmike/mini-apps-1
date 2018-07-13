@@ -1,4 +1,35 @@
-#app {
-  /*background-color: black;*/
-  color: blue;
+.app {
+  background-color: black;
+  width: 100%;
+  color: white;
+}
+
+.board {
+  background-color: #38f;
+  padding-bottom: 1%;
+}
+
+.grid {
+  width: 13.08%;
+  /*background-color: white;
+  padding-top: 13.08%;*/
+  margin: 1% 0px 0px 1%;
+  display: inline-block;
+}
+.grid0 {
+  background-color: white;
+  width: 100%;
+  padding-top: 100%;
+}
+
+.grid1 {
+  background-color: yellow;
+  width: 100%;
+  padding-top: 100%;
+}
+
+.grid2 {
+  background-color: red;
+  width: 100%;
+  padding-top: 100%;
 }
